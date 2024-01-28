@@ -1,5 +1,8 @@
+import yfinance as yf
+
 class Asset:
 
+    
     def __init__(self, symbol, name):
 
         #--- Basic info
@@ -7,6 +10,7 @@ class Asset:
         self.name = name
         self.market_cap = None # Market capitalization or total value
         self.asset_type = ''
+        self.source = yf.Ticker(symbol) # TODO: Handle errors
 
         # Creates a unique asset ID based on creation date
         from datetime import datetime as dt

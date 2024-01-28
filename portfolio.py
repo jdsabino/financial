@@ -2,6 +2,7 @@ class Portfolio:
     
     def __init__(self, name="My Portfolio"):
         self.name = name
+        self.filename = name + '.pkl'
         self.raw_assets = []  # Raw list of assets to keep track of transactions
         self.assets = {} # Dictionary to store assets with their symbols as keys and quantities as values
         self.owners = []  # List of owners : Still to decide if ths will only be names or a prper class
@@ -80,5 +81,22 @@ class Portfolio:
             asset = asset_data["asset"]
             asset.update_info()  # Assuming there's an update_info method in the Asset class
 
+    def save_portfolio(self, filename=None):
+        # TEST THIS!!
+        import dill
 
+        if filename == None:
+            filename = self.filename
+
+        with open(filename, 'wb') as f:
+            dill.dump(self.__dict__, f)
+
+    def load_portfolio(self, filename):
+        # TEST THIS!!
+        import dill
+
+        with open(filename, 'rb') as f:
+            
+           self.__dict__ =  dill.load(f)
+        
     

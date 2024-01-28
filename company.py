@@ -5,6 +5,7 @@ import yfinance as yf
 from yfinance_functions import *
 from wacc_list import wacc
 from asset import Asset
+import yfinance as yf
 
 API_KEY = '888C8PL34SZMZSLP';
 
@@ -16,31 +17,28 @@ class Company(Asset):
         super().__init__(symbol, name)
         
         self.asset_type = 'Stock'
-
-
-        self.info_source = source
         
-        #--- Dicionarios
-        self.revenue_funcs = { 'YFinance': yf_get_income_statement_info} #, 'AlphaVantage': av_get_income_statement_info}
+
+        self.sector = self.source.info['sector']
+        self.industry = self.source.info['industry']
+        self.country =  self.source.info['country']
+        self.current_price = self.source.fast_info['lastPrice']
+        self.earnings_per_share = None
+        self.dividend_yield = None
+        self.beta = None
         
-        self.cash_flow_funcs = { 'YFinance': yf_compute_free_cashflow} #, 'AlphaVantage': av_compute_free_cash_flow}
-        
-        self.net_income_funcs = {'YFinance': yf_get_cash_flow_info} #, 'AlphaVantage': av_get_cash_flow_info}
+        # #--- Quantities of interest
+        # self.revenue = self.get_revenue(self.info_source)
+        # self.cash_flow = 0#self.get_cash_flow(self.info_source)
+        # self.net_income = self.get_net_income(self.info_source)        
+        # self.free_cash_flow = self.get_cash_flow(self.info_source)
+        # self.total_shares = -1 # TODO # int(self.get_overview(self.info_source, field='SharesOutstanding'))
 
-        self.overview_funcs = {'YFinance': yf_get_company_overview} #, 'AlphaVantage': av_get_company_overview}
-
-        #--- Quantities of interest
-        self.revenue = self.get_revenue(self.info_source)
-        self.cash_flow = 0#self.get_cash_flow(self.info_source)
-        self.net_income = self.get_net_income(self.info_source)        
-        self.free_cash_flow = self.get_cash_flow(self.info_source)
-        self.total_shares = -1 # TODO # int(self.get_overview(self.info_source, field='SharesOutstanding'))
-
-        try:
-            self.wacc = wacc[self.symbol]
-        except:
-            print("Couldn't find company in the WACC list. Assigning default value... (6%)")
-            self.wacc = 0.06
+        # try:
+        #     self.wacc = wacc[self.symbol]
+        # except:
+        #     print("Couldn't find company in the WACC list. Assigning default value... (6%)")
+        #     self.wacc = 0.06
 
 
 
