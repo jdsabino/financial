@@ -1,17 +1,15 @@
 class Asset:
 
-    def __init__(self, symbol):
-
-
+    def __init__(self, symbol, name):
 
         #--- Basic info
         self.symbol = symbol
-        self.name = ''
+        self.name = name
         self.market_cap = None # Market capitalization or total value
         self.asset_type = ''
 
         # Creates a unique asset ID based on creation date
-        import datetime.datetime as dt
+        from datetime import datetime as dt
 
         uniqueID = str(dt.today())
         for sym in [' ', '-', ':', '.']:

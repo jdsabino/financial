@@ -19,15 +19,15 @@ dividend_date = 'DividendDate'
 total_shares = 'SharesOutstanding'
 
 
-def yf_get_income_statement_info():
-
+def yf_get_income_statement_info(ticker, field):
     return NotImplementedError
 
-def yf_get_company_overview():
-
+def yf_get_cash_flow_info(ticker, field):
     return NotImplementedError
 
-def yf_compute_free_cashflow():
+def yf_get_company_overview(ticker, field):
+    return NotImplementedError
 
+def yf_compute_free_cashflow(ticker, field):
     return NotImplementedError
 
