@@ -110,6 +110,58 @@ class Company(Asset):
     def dividend_income(self):
         return NotImplementedError
 
+    def stock_price(self, start=None, end=None):
+        """
+        Returns the stock information (Open, High, Low, Close)
+        between start to end date.
+
+        When start and end are both None, returns the most recent stock value.
+        When only end is None, returns the stock price for start date (if available).
+        When only start is None, returns the stock price since data is available until 'end' date.
+        
+
+        Parameters
+        ----------
+        start: String
+            start date in the format 'yyyy-mm-dd'
+        end: String
+            end date in the format 'yyyy-mm-dd'
+
+        Returns
+        ----------
+        prices: pandas.core.series.Series
+            The list of stock information in time   
+        """        
+
+
+        if start == None and end == None:
+            print('Returning last price')
+            hist = self.source.history()
+            price = hist['Close'].iloc[-1]
+            return price
+
+        if start == None and end != None:
+            prices = self.source.history(start='1900-01-01', end = end)
+            return prices
+
+
+        if end == None:
+            import datetime as dt
+            
+            date_start = dt.datetime.strptime(start, '%Y-%m-%d')
+            date_end   = date_start + dt.timedelta(days=1) # Add one day to the start date
+
+            date_start = dt.datetime.strftime(date_start, '%Y-%m-%d') # Convert to string
+            date_end   = dt.datetime.strftime(date_end, '%Y-%m-%d')
+            
+            prices = self.source.history(start = date_start, end = date_end)
+
+            return prices['Close']
+        else:
+            prices = self.source.history(start = start, end = end)
+
+            return prices
+
 
 
 
