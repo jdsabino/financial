@@ -47,12 +47,32 @@ class Company(Asset):
 
         return revenues
 
-    def get_cash_flow(self, n_years=4):
+    def get_free_cash_flows(self, n_years=4):
+        '''
+        Retrieves the Free Cash Flows of the last n_years years.
+        n_years is set to 4 because yfinance only returns that many years back.
 
-        cflow = self.source.get_cash_flow()
-        cashflow = self.cash_flow_funcs[info_source](self.symbol, info_label)
+        TODO: Get a data source that provides more FCF history.
 
-        return cashflow
+        Parameters
+        ----------
+        n_years: integer
+            number of years (counting backwords from the present one) going backwards
+        to retreieve free cash flows
+
+        Returns
+        ----------
+        prices: pandas.core.series.Series
+            The list of free cashflows
+        
+        '''
+
+        fcf_idx = 0 # Works for yfinance
+
+        fcf = self.source.get_cash_flow()
+        fcf = fcf.iloc[fcf_idx]
+
+        return fcf
 
 
     def get_net_income(self, n_years=4):
@@ -137,6 +157,28 @@ class Company(Asset):
 
             return prices
 
+    def predict_fcf(self, ncfcs, method='LinReg'):
+        '''
+        Predicts the evolution of Free Cash Flows.
+        It uses a specific method (by default Linear regression)
+        to extrapolate future values of FCFs based on their past vales.
+        
+        Parameters
+        ----------
+        nfcfs: integer
+            The number of free cash flows to predict
+        method: String
+            The nmethod to predict future FCFs
+
+        Returns
+        ----------
+        future_fcf: numpy.array 
+            An array with the predicted values of the FCFs
+        '''
+
+        
+        
+    
 
     def update_info(self):
 
