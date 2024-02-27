@@ -97,9 +97,25 @@ class Company(Asset):
         return NotImplementedError
         
 
-    def intrinsic_value(self, model='DDM'):
+    def intrinsic_value(self, model='DCF'):
 
-        return NotImplementedError
+        if model == 'DCF':
+
+            from model_functions import discounted_cash_flows_model
+
+            nyears = 4
+            discount_rate = 0.06*np.ones(nyears)
+            ft_fcf = self.predict_fcf(nyears)
+
+            int_value = discounted_cash_flows_model(ft_fcf,
+                                                    discount_rate, nperiods=nyears)
+
+            return int_value
+        
+        else:
+            print("Model not found!")
+            return -1
+        
  
 
     def dividend_income(self):
@@ -157,7 +173,7 @@ class Company(Asset):
 
             return prices
 
-    def predict_fcf(self, ncfcs, method='LinReg'):
+    def predict_fcf(self, nfcfs, method='LinReg'):
         '''
         Predicts the evolution of Free Cash Flows.
         It uses a specific method (by default Linear regression)
@@ -168,7 +184,7 @@ class Company(Asset):
         nfcfs: integer
             The number of free cash flows to predict
         method: String
-            The nmethod to predict future FCFs
+            The method to predict future FCFs
 
         Returns
         ----------
@@ -176,8 +192,28 @@ class Company(Asset):
             An array with the predicted values of the FCFs
         '''
 
-        
-        
+
+
+        #--- LinReg method
+        if method == "LinReg":
+            fcf = self.get_free_cash_flows()
+            fcf = fcf[::-1]
+            
+            tt = np.arange(fcf.size)
+            
+            from sklearn import linear_model
+            linReg = linear_model.LinearRegression()
+            linReg.fit( tt.reshape(-1, 1), fcf.values.reshape(-1,1))
+            
+            tt_future = np.arange(fcf.size, fcf.size + nfcfs)
+            
+            fcf_future = linReg.predict(tt_future.reshape(-1, 1))
+            
+            return fcf_future.squeeze()
+        elif method == "ExpectedGrowth":
+            return NotImplementedError
+        else:
+            return -1
     
 
     def update_info(self):

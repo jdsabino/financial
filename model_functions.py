@@ -178,7 +178,7 @@ def discounted_cash_flows_model(cf, disc_rate, nperiods = 4):
 
     
     for ii in range(0, nperiods):
-       DCF += cd[ii]/np.power(1 + disc_rate[ii], ii+1 ) 
+       DCF += cf[ii]/np.power(1 + disc_rate[ii], ii+1 ) 
 
 
     return DCF
