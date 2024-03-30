@@ -3,12 +3,16 @@ import yfinance as yf
 
 class Yahoo(Source):
 
-    def __init__(self, ticker):
+    def __init__(self):
 
         super().__init__("Yahoo")
+        self.source = None
 
-        self.ticker = ticker
-        self.source = yf.Ticker(self.ticker)
+        
+        
+    def set_ticker(self, ticker):
+
+        self.source = yf.Ticker(ticker)
 
         try:
             self.source.info['shortName']
@@ -16,11 +20,9 @@ class Yahoo(Source):
             print("Symbol not found!")
             return -1
         except:
-            print("Din't work.")
+            print("Didn't work.")
             return -1
 
-        
-            
 
     def set_sector(self):
         return self.source.info['sector']

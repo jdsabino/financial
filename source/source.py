@@ -5,17 +5,12 @@ class Source:
     
     
     def __init__(self, name):
-        self.available_sources = ["Yahoo", "Investing"]
+        self.available_sources = ["Yahoo"]
         self.print_sources()
         self.name = name
         self.source = None
-
+    
         
-        
-        
-        
-
-
     def print_sources(self):
 
         print("Available sources:")
@@ -25,7 +20,9 @@ class Source:
     
         return 0
 
-
+    def set_ticker(ticker):
+        return NotImplemented
+    
     def set_market_cap(self):
 
         return NotImplemented
