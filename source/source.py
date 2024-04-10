@@ -9,6 +9,7 @@ class Source:
         self.print_sources()
         self.name = name
         self.source = None
+        self.api_key = ''
     
         
     def print_sources(self):
