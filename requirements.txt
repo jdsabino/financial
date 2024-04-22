@@ -1,0 +1,7 @@
+# Required packages
+dill
+pandas
+numpy
+yfinance
+justetf-scraping @ https://github.com/druzsan/justetf-scraping.git
+scikit-learn

@@ -1,3 +1,5 @@
+import dill
+
 class Portfolio:
     
     def __init__(self, name="My Portfolio"):
@@ -82,9 +84,7 @@ class Portfolio:
             asset.update_info()  # Assuming there's an update_info method in the Asset class
 
     def save_portfolio(self, filename=None):
-        # TEST THIS!!
-        import dill
-
+        # Basic tests performed. Further testing required.
         if filename == None:
             filename = self.filename
 
